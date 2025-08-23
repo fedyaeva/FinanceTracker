@@ -4,7 +4,7 @@ namespace FinanceTracker;
 
 public class AppDB
 { 
-    private SQLiteAsyncConnection connection;
+    private SQLiteConnection connection;
 
     /// <summary>
     /// Создание таблиц.
@@ -12,11 +12,11 @@ public class AppDB
     public AppDB()
     {
         string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "finance.db");
-        connection = new SQLiteAsyncConnection(dbPath);
-        connection.CreateTableAsync<ExpenseCategory>();
-        connection.CreateTableAsync<IncomeCategory>();
-        connection.CreateTableAsync<ExpenseOperation>();
-        connection.CreateTableAsync<IncomeOperation>();
+        connection = new SQLiteConnection(dbPath);
+        connection.CreateTable<ExpenseCategory>();
+        connection.CreateTable<IncomeCategory>();
+        connection.CreateTable<ExpenseOperation>();
+        connection.CreateTable<IncomeOperation>();
     }
 
     /// <summary>
@@ -25,16 +25,16 @@ public class AppDB
     /// <param name="expenseCategory">Категория расхода.</param>
     public void AddExpenseCategory(ExpenseCategory expenseCategory)
     {
-        connection.InsertAsync(expenseCategory);
+        connection.Insert(expenseCategory);
     }
 
     /// <summary>
     /// Получение списка категорий расхода.
     /// </summary>
     /// <returns></returns>
-    public Task<List<ExpenseCategory>> GetExpenseCategories()
+    public List<ExpenseCategory> GetExpenseCategories()
     {
-        return connection.Table<ExpenseCategory>().ToListAsync();
+        return connection.Table<ExpenseCategory>().ToList();
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class AppDB
     /// <param name="expenseCategory">Категория расхода.</param>
     public void UpdateExpenseCategory(ExpenseCategory expenseCategory)
     {
-        connection.UpdateAsync(expenseCategory);
+        connection.Update(expenseCategory);
     }
 
     /// <summary>
@@ -52,25 +52,25 @@ public class AppDB
     /// <param name="expenseCategory">Категория расхода.</param>
     public void DeleteExpenseCategory(ExpenseCategory expenseCategory)
     {
-        connection.DeleteAsync(expenseCategory);
+        connection.Delete(expenseCategory);
     }
     
     /// <summary>
     /// Добавление категории дохода.
     /// </summary>
     /// <param name="incomeCategory">Категория дохода.</param>
-    public void IncomeCategory(IncomeCategory incomeCategory)
+    public void AddIncomeCategory(IncomeCategory incomeCategory)
     {
-        connection.InsertAsync(incomeCategory);
+        connection.Insert(incomeCategory);
     }
     
     /// <summary>
     /// Получение списка категорий дохода.
     /// </summary>
     /// <returns></returns>
-    public Task<List<IncomeCategory>> GetIncomeCategories()
+    public List<IncomeCategory> GetIncomeCategories()
     {
-        return connection.Table<IncomeCategory>().ToListAsync();
+        return connection.Table<IncomeCategory>().ToList();
     }
     
     /// <summary>
@@ -79,7 +79,7 @@ public class AppDB
     /// <param name="incomeCategory">Категория дохода.</param>
     public void UpdateIncomeCategory(IncomeCategory incomeCategory)
     {
-        connection.UpdateAsync(incomeCategory);
+        connection.Update(incomeCategory);
     }
     
     /// <summary>
@@ -88,7 +88,7 @@ public class AppDB
     /// <param name="incomeCategory"></param>
     public void DeleteIncomeCategory(IncomeCategory incomeCategory)
     {
-        connection.DeleteAsync(incomeCategory);
+        connection.Delete(incomeCategory);
     }
     
     /// <summary>
@@ -97,16 +97,16 @@ public class AppDB
     /// <param name="expenseOperation">Операция расхода.</param>
     public void AddExpenseOperation(ExpenseOperation expenseOperation)
     {
-        connection.InsertAsync(expenseOperation);
+        connection.Insert(expenseOperation);
     }
 
     /// <summary>
     /// Получение списка операций расхода.
     /// </summary>
     /// <returns></returns>
-    public Task<List<ExpenseOperation>> GetExpenseOperation()
+    public List<ExpenseOperation> GetExpenseOperations()
     {
-        return connection.Table<ExpenseOperation>().ToListAsync();
+        return connection.Table<ExpenseOperation>().ToList();
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public class AppDB
     /// <param name="expenseOperation">Операция расхода.</param>
     public void UpdateExpenseOperation(ExpenseOperation expenseOperation)
     {
-        connection.UpdateAsync(expenseOperation);
+        connection.Update(expenseOperation);
     }
 
     /// <summary>
@@ -124,25 +124,25 @@ public class AppDB
     /// <param name="expenseOperation">Операция расхода.</param>
     public void DeleteExpenseOperation(ExpenseOperation expenseOperation)
     {
-        connection.DeleteAsync(expenseOperation);
+        connection.Delete(expenseOperation);
     }
     
     /// <summary>
     /// Добавление операции дохода.
     /// </summary>
     /// <param name="incomeOperation">Операция дохода.</param>
-    public void IncomeOperation(IncomeOperation incomeOperation)
+    public void AddIncomeOperation(IncomeOperation incomeOperation)
     {
-        connection.InsertAsync(incomeOperation);
+        connection.Insert(incomeOperation);
     }
     
     /// <summary>
     /// Получение списка операций дохода.
     /// </summary>
     /// <returns></returns>
-    public Task<List<IncomeOperation>> GetIncomeOperation()
+    public List<IncomeOperation> GetIncomeOperations()
     {
-        return connection.Table<IncomeOperation>().ToListAsync();
+        return connection.Table<IncomeOperation>().ToList();
     }
     
     /// <summary>
@@ -151,7 +151,7 @@ public class AppDB
     /// <param name="incomeOperation">Операция дохода.</param>
     public void UpdateIncomeOperation(IncomeOperation incomeOperation)
     {
-        connection.UpdateAsync(incomeOperation);
+        connection.Update(incomeOperation);
     }
     
     /// <summary>
@@ -160,7 +160,7 @@ public class AppDB
     /// <param name="incomeOperation"></param>
     public void DeleteIncomeOperation(IncomeOperation incomeOperation)
     {
-        connection.DeleteAsync(incomeOperation);
+        connection.Delete(incomeOperation);
     }
 }
 
