@@ -28,5 +28,5 @@ public abstract class Category
     /// <summary>
     /// Переименование картегории.
     /// </summary>
-    public abstract void RenameCategory();      
+    public abstract void RenameCategory();     
 }
