@@ -117,7 +117,10 @@ public class AppDB
     /// <returns></returns>
     public List<ExpenseOperation> GetExpenseOperationsByPeriod(DateTime startDate, DateTime endDate)
     {
-        return connection.Table<ExpenseOperation>().Where(o =>o.DateTime >= startDate && o.DateTime <= endDate).ToList();
+        return connection.Table<ExpenseOperation>().Where(o =>
+            o.DateTime >= startDate && 
+            o.DateTime <= endDate)
+            .ToList();
     }
     
     /// <summary>
@@ -128,8 +131,27 @@ public class AppDB
     /// <returns></returns>
     public decimal GetTotalExpenseByPeriod(DateTime startDate, DateTime endDate)
     {
-        return connection.Table<ExpenseOperation>().Where(o => o.DateTime >= startDate && o.DateTime <= endDate)
+        return connection.Table<ExpenseOperation>().Where(o => 
+                o.DateTime >= startDate && 
+                o.DateTime <= endDate)
             .Sum(o => o.Sum);
+    }
+    
+    /// <summary>
+    /// Получение списка операций расхода за период по категории.
+    /// </summary>
+    /// <param name="startDate">Начало периода.</param>
+    /// <param name="endDate">Конец периода.</param>
+    /// <param name="expenseCategory">ИД категории расхода.</param>
+    /// <returns></returns>
+    public List<ExpenseOperation> GetExpenseOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate,
+        ExpenseCategory expenseCategory)
+    {
+        return connection.Table<ExpenseOperation>().Where(o =>
+                o.DateTime >= startDate && 
+                o.DateTime <= endDate && 
+                o.CategoryId == expenseCategory.Id)
+            .ToList();
     }
 
     /// <summary>
@@ -176,7 +198,27 @@ public class AppDB
     /// <returns></returns>
     public List<IncomeOperation> GetIncomeOperationsByPeriod(DateTime startDate, DateTime endDate)
     {
-        return connection.Table<IncomeOperation>().Where(o =>o.DateTime >= startDate && o.DateTime <= endDate).ToList();
+        return connection.Table<IncomeOperation>().Where(o =>
+            o.DateTime >= startDate && 
+            o.DateTime <= endDate)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Получение списка операций дохода за период по категории.
+    /// </summary>
+    /// <param name="startDate">Начало периода.</param>
+    /// <param name="endDate">Конец периода.</param>
+    /// <param name="expenseCategory">ИД категории дохода.</param>
+    /// <returns></returns>
+    public List<IncomeOperation> GetIncomeOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate,
+        IncomeCategory incomeCategory)
+    {
+        return connection.Table<IncomeOperation>().Where(o =>
+            o.DateTime >= startDate && 
+            o.DateTime <= endDate && 
+            o.CategoryId == incomeCategory.Id)
+            .ToList();
     }
     
     /// <summary>
@@ -187,7 +229,9 @@ public class AppDB
     /// <returns></returns>
     public decimal GetTotalIncomeByPeriod(DateTime startDate, DateTime endDate)
     {
-        return connection.Table<IncomeOperation>().Where(o => o.DateTime >= startDate && o.DateTime <= endDate)
+        return connection.Table<IncomeOperation>().Where(o => 
+                o.DateTime >= startDate && 
+                o.DateTime <= endDate)
             .Sum(o => o.Sum);
     }
     
