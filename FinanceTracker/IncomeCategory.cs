@@ -5,7 +5,7 @@ namespace FinanceTracker;
 /// </summary>
 public class IncomeCategory : Category
 {
-    public override void AddCategory()
+    public override void AddCategory(string name)
     {
         throw new NotImplementedException();
     }

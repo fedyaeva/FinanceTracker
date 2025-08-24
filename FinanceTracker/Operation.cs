@@ -1,3 +1,5 @@
+using SQLite;
+
 namespace FinanceTracker;
 
 /// <summary>
@@ -8,6 +10,7 @@ public abstract class Operation
     /// <summary>
     /// Ид операции.
     /// </summary>
+    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     
     /// <summary>
@@ -18,7 +21,7 @@ public abstract class Operation
     /// <summary>
     /// Дата и время операции.
     /// </summary>
-    public int Datetime { get; set; }
+    public DateTime DateTime { get; set; }
     
     /// <summary>
     /// Ид категории.
@@ -48,5 +51,10 @@ public abstract class Operation
     /// <summary>
     /// Редактирование операции.
     /// </summary>
-    public abstract void UpdateOperation();    
+    public abstract void UpdateOperation();
+
+    /// <summary>
+    /// Получение списка операций.
+    /// </summary>
+    public abstract void GetOperations();
 }

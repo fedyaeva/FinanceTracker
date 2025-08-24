@@ -16,4 +16,9 @@ public class IncomeOperation : Operation
     {
         throw new NotImplementedException();
     }
+
+    public override void GetOperations()
+    {
+        throw new NotImplementedException();
+    }
 }

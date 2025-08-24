@@ -16,4 +16,9 @@ public class ExpenseOperation : Operation
     {
         throw new NotImplementedException();
     }
+
+    public override void GetOperations()
+    {
+        throw new NotImplementedException();
+    }
 }

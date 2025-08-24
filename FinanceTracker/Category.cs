@@ -1,3 +1,5 @@
+using SQLite;
+
 namespace FinanceTracker;
 
 /// <summary>
@@ -8,6 +10,7 @@ public abstract class Category
     /// <summary>
     /// Ид категории.
     /// </summary>
+    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
     
     /// <summary>
@@ -18,7 +21,7 @@ public abstract class Category
     /// <summary>
     /// Добавление категории.
     /// </summary>
-    public abstract void AddCategory();
+    public abstract void AddCategory(string name);
     
     /// <summary>
     /// Удаление категории.

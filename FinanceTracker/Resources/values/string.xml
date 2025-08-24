@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">FinanceTracker</string>
-    <string name="app_text">Hello, Android!</string>
+    <string name="app_text">Трекер финансов</string>
 </resources>
