@@ -93,7 +93,7 @@ public class AppDBManager
     /// <returns></returns>
     public List<ExpenseOperation> GetExpenseOperations()
     {
-        return connection.Table<ExpenseOperation>().ToList();
+       return connection.Table<ExpenseOperation>().ToList();
     }
 
     /// <summary>
@@ -132,12 +132,12 @@ public class AppDBManager
     /// <param name="expenseCategory">ИД категории расхода.</param>
     /// <returns></returns>
     public List<ExpenseOperation> GetExpenseOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate,
-        ExpenseCategory expenseCategory)
+        int expenseCategory)
     {
         return connection.Table<ExpenseOperation>().Where(o =>
                 o.DateTime >= startDate && 
                 o.DateTime <= endDate && 
-                o.CategoryId == expenseCategory.Id)
+                o.CategoryId == expenseCategory)
             .ToList();
     }
 
@@ -199,12 +199,12 @@ public class AppDBManager
     /// <param name="expenseCategory">ИД категории дохода.</param>
     /// <returns></returns>
     public List<IncomeOperation> GetIncomeOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate,
-        IncomeCategory incomeCategory)
+        int incomeCategory)
     {
         return connection.Table<IncomeOperation>().Where(o =>
             o.DateTime >= startDate && 
             o.DateTime <= endDate && 
-            o.CategoryId == incomeCategory.Id)
+            o.CategoryId == incomeCategory)
             .ToList();
     }
     

@@ -2,23 +2,57 @@ namespace FinanceTracker;
 
 public class IncomeOperation : Operation
 {
+    /// <summary>
+    /// Менеджер работы с БД.
+    /// </summary>
+    private AppDBManager database;
+    
     public override void AddOperation()
     {
-        throw new NotImplementedException();
+        database.AddIncomeOperation(this);
     }
 
     public override void RemoveOperation()
     {
-        throw new NotImplementedException();
+        var operation = database.GetIncomeOperations().FirstOrDefault(x => x.Id == Id);
+        if (operation == null)
+        {
+            throw new Exception("Income operation not found");
+        }
+        database.DeleteIncomeOperation(operation);
     }
 
     public override void UpdateOperation()
     {
-        throw new NotImplementedException();
+        var operation = database.GetIncomeOperations().FirstOrDefault(x => x.Id == Id);
+        if (operation == null)
+        {
+            throw new Exception("Income operation not found");
+        }
+        operation.Name = Name;
+        operation.DateTime = DateTime;
+        operation.CategoryId = CategoryId;
+        operation.Sum = Sum;
+        database.UpdateIncomeOperation(operation);
     }
 
-    public override void GetOperations()
+    public override List<Operation> GetOperations()
     {
-        throw new NotImplementedException();
+        return new List<Operation>(database.GetIncomeOperations());
+    }
+
+    public override List<Operation> GetOperationsByPeriod(DateTime startDate, DateTime endDate)
+    {
+        return new List<Operation>(database.GetIncomeOperationsByPeriod(startDate, endDate));;
+    }
+
+    public override List<Operation> GetTotalOperationByPeriod(DateTime startDate, DateTime endDate)
+    {
+        return new List<Operation>((int)database.GetTotalIncomeByPeriod(startDate, endDate));
+    }
+
+    public override List<Operation> GetOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate, int categoryId)
+    {
+        return new List<Operation>(database.GetIncomeOperationsByPeriodAndCategory(startDate, endDate, categoryId));
     }
 }

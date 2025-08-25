@@ -56,5 +56,24 @@ public abstract class Operation
     /// <summary>
     /// Получение списка операций.
     /// </summary>
-    public abstract void GetOperations();
+    public abstract List<Operation> GetOperations();
+    
+    /// <summary>
+    /// Получение списка операций за период.
+    /// </summary>
+    /// <returns></returns>
+    public abstract List<Operation> GetOperationsByPeriod(DateTime startDate, DateTime endDate);
+    
+    /// <summary>
+    /// Получение общей суммы операций за период.
+    /// </summary>
+    /// <returns></returns>
+    public abstract List<Operation> GetTotalOperationByPeriod(DateTime startDate, DateTime endDate);
+    
+    /// <summary>
+    /// Получение списка операций за период по категории.
+    /// </summary>
+    /// <returns></returns>
+    public abstract List<Operation> GetOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate,
+        int categoryId);
 }

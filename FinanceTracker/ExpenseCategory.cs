@@ -5,18 +5,45 @@ namespace FinanceTracker;
 /// </summary>
 public class ExpenseCategory : Category
 {
+    /// <summary>
+    /// Менеджер работы с БД.
+    /// </summary>
+    private AppDBManager database;
+    
     public override void AddCategory(string name)
     {
-        throw new NotImplementedException();
+        var existingCategory = database.GetExpenseCategories().FirstOrDefault(x => x.Name == name);
+        if (existingCategory != null)
+        {
+            throw new Exception("Expense category already exists");
+        }
+        var newCategory = new ExpenseCategory{Name = name};
+        database.AddExpenseCategory(newCategory);
     }
 
     public override void RemoveCategory()
     {
-        throw new NotImplementedException();
+        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);
+        if (category == null)
+        {
+            throw new Exception("Expense category not found");
+        }
+        database.DeleteExpenseCategory(category);
     }
 
     public override void RenameCategory()
     {
-        throw new NotImplementedException();
+        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);
+        if (category == null)
+        {
+            throw new Exception("Expense category not found");
+        }
+        var existingCategory = database.GetExpenseCategories().FirstOrDefault(x => x.Name == Name);
+        if (existingCategory != null)
+        {
+            throw new Exception("Expense category already exists");
+        }
+        category.Name = Name;
+        database.UpdateExpenseCategory(category);
     }
 }
