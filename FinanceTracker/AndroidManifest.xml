@@ -5,8 +5,7 @@
             android:icon="@mipmap/appicon"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/appicon_round"
-            android:supportsRtl="true"
-            android:name=".AppDB">
+            android:supportsRtl="true">
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

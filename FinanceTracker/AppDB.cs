@@ -1,19 +1,16 @@
-using Android.Runtime;
 using SQLite;
-
 namespace FinanceTracker;
 
-[Application]
-public class AppDB : Application
+public class AppDB
 {
     private SQLiteConnection connection;
-
+    
     /// <summary>
     /// Создание таблиц.
     /// </summary>
-    public AppDB()
+    public void Initialize()
     {
-        string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "finance.db");
+        string dbPath = Android.App.Application.Context.GetDatabasePath("finance.db").AbsolutePath;
         connection = new SQLiteConnection(dbPath);
         connection.CreateTable<ExpenseCategory>();
         connection.CreateTable<IncomeCategory>();
@@ -21,7 +18,7 @@ public class AppDB : Application
         connection.CreateTable<IncomeOperation>();
     }
     
-    public AppDB(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+    public AppDB()
     {
     }
 }

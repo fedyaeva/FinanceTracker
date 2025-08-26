@@ -1,5 +1,4 @@
 using SQLite;
-
 namespace FinanceTracker;
 
 /// <summary>

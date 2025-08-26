@@ -3,14 +3,16 @@ namespace FinanceTracker;
 [Activity(Label = "@string/app_name", MainLauncher = true)]
 public class MainActivity : Activity
 {
-    private AppDBManager database;
+    private AppDB database;
+
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
+   
+        database = new AppDB();
         
-        database = new AppDBManager();
-
-        // Set our view from the "main" layout resource
+        database.Initialize();
+        
         SetContentView(Resource.Layout.activity_main);
     }
 }
