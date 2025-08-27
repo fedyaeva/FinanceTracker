@@ -21,6 +21,11 @@ public class ExpenseCategory : Category
         database.AddExpenseCategory(newCategory);
     }
 
+    public override List<Category> GetCategories()
+    {
+        return new List<Category>(database.GetExpenseCategories());
+    }
+
     public override void RemoveCategory()
     {
         var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);

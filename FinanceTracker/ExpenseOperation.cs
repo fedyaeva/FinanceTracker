@@ -5,13 +5,22 @@ public class ExpenseOperation : Operation
     /// <summary>
     /// Менеджер работы с БД.
     /// </summary>
-    private AppDBManager database;
+    AppDBManager database;
     
+    public ExpenseOperation(AppDBManager database)
+    {
+        this.database = database;
+    }
+
+    public ExpenseOperation()
+    {
+    }
+
     public override void AddOperation()
     {
         database.AddExpenseOperation(this);
     }
-
+    
     public override void RemoveOperation()
     {
         var operation = database.GetExpenseOperations().FirstOrDefault(x => x.Id == Id);
@@ -32,7 +41,7 @@ public class ExpenseOperation : Operation
         operation.Name = Name;
         operation.DateTime = DateTime;
         operation.CategoryId = CategoryId;
-        operation.Sum = Sum;
+        operation.Amount = Amount;
         database.UpdateExpenseOperation(operation);
     }
 
@@ -41,14 +50,29 @@ public class ExpenseOperation : Operation
        return new List<Operation>(database.GetExpenseOperations());
     }
 
-    public override List<Operation> GetOperationsByPeriod(DateTime startDate, DateTime endDate)
+    public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
-        return new List<Operation>(database.GetExpenseOperationsByPeriod(startDate, endDate));
+        ExpenseCategory expenseCategory = new ExpenseCategory();
+        var operations = database.GetIncomeOperationsByPeriod(startDate, endDate);
+        
+        var categories = expenseCategory.GetCategories();
+    
+        List<CategorySum> groupedSums = operations
+            .GroupBy(op => op.CategoryId)
+            .Select(g => new CategorySum
+            {
+                CategoryId = g.Key,
+                CategoryName = categories.FirstOrDefault(c => c.Id == g.Key)?.Name ?? "Неизвестно",
+                SumAmount = g.Sum(op => op.Amount)
+            })
+            .ToList();
+        
+        return groupedSums;        
     }
 
-    public override List<Operation> GetTotalOperationByPeriod(DateTime startDate, DateTime endDate)
+    public override decimal GetSumOperationByPeriod(DateTime startDate, DateTime endDate)
     {
-        return new List<Operation>((int)database.GetTotalExpenseByPeriod(startDate, endDate));
+        return database.GetSumExpenseByPeriod(startDate, endDate);
     }
 
     public override List<Operation> GetOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate, int categoryId)

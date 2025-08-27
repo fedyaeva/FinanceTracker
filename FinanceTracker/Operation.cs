@@ -30,7 +30,7 @@ public abstract class Operation
     /// <summary>
     /// Сумма операции.
     /// </summary>
-    public int Sum { get; set; }
+    public decimal Amount { get; set; }
     
     /// <summary>
     /// Комментарий.
@@ -61,13 +61,13 @@ public abstract class Operation
     /// Получение списка операций за период.
     /// </summary>
     /// <returns></returns>
-    public abstract List<Operation> GetOperationsByPeriod(DateTime startDate, DateTime endDate);
+    public abstract List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate);
     
     /// <summary>
     /// Получение общей суммы операций за период.
     /// </summary>
     /// <returns></returns>
-    public abstract List<Operation> GetTotalOperationByPeriod(DateTime startDate, DateTime endDate);
+    public abstract decimal GetSumOperationByPeriod(DateTime startDate, DateTime endDate);
     
     /// <summary>
     /// Получение списка операций за период по категории.

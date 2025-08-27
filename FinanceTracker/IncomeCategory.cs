@@ -18,6 +18,11 @@ public class IncomeCategory : Category
         }
         database.DeleteIncomeCategory(category);
     }
+    
+    public override List<Category> GetCategories()
+    {
+        return new List<Category>(database.GetIncomeCategories());
+    }
 
     public override void RemoveCategory()
     {

@@ -6,7 +6,16 @@ public class IncomeOperation : Operation
     /// Менеджер работы с БД.
     /// </summary>
     private AppDBManager database;
-    
+
+    public IncomeOperation(AppDBManager database)
+    {
+        this.database = database;
+    }
+
+    public IncomeOperation()
+    {
+    }
+
     public override void AddOperation()
     {
         database.AddIncomeOperation(this);
@@ -32,7 +41,7 @@ public class IncomeOperation : Operation
         operation.Name = Name;
         operation.DateTime = DateTime;
         operation.CategoryId = CategoryId;
-        operation.Sum = Sum;
+        operation.Amount = Amount;
         database.UpdateIncomeOperation(operation);
     }
 
@@ -41,14 +50,29 @@ public class IncomeOperation : Operation
         return new List<Operation>(database.GetIncomeOperations());
     }
 
-    public override List<Operation> GetOperationsByPeriod(DateTime startDate, DateTime endDate)
+    public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
-        return new List<Operation>(database.GetIncomeOperationsByPeriod(startDate, endDate));;
+        IncomeCategory incomeCategory = new IncomeCategory();
+        var operations = database.GetIncomeOperationsByPeriod(startDate, endDate);
+        
+        var categories = incomeCategory.GetCategories();
+    
+        List<CategorySum> groupedSums = operations
+            .GroupBy(op => op.CategoryId)
+            .Select(g => new CategorySum
+            {
+                CategoryId = g.Key,
+                CategoryName = categories.FirstOrDefault(c => c.Id == g.Key)?.Name ?? "Неизвестно",
+                SumAmount = g.Sum(op => op.Amount)
+            })
+            .ToList();
+        
+        return groupedSums;        
     }
 
-    public override List<Operation> GetTotalOperationByPeriod(DateTime startDate, DateTime endDate)
+    public override decimal GetSumOperationByPeriod(DateTime startDate, DateTime endDate)
     {
-        return new List<Operation>((int)database.GetTotalIncomeByPeriod(startDate, endDate));
+        return database.GetSumIncomeByPeriod(startDate, endDate);
     }
 
     public override List<Operation> GetOperationsByPeriodAndCategory(DateTime startDate, DateTime endDate, int categoryId)

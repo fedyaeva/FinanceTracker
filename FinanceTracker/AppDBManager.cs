@@ -3,8 +3,14 @@ using SQLite;
 namespace FinanceTracker;
 
 public class AppDBManager
-{ 
+{
     private SQLiteConnection connection;
+
+    public AppDBManager()
+    {
+        string dbPath = Android.App.Application.Context.GetDatabasePath("finance.db").AbsolutePath;
+        connection = new SQLiteConnection(dbPath);
+    }
 
     /// <summary>
     /// Добавление категории расхода.
@@ -116,12 +122,12 @@ public class AppDBManager
     /// <param name="startDate">Начало периода.</param>
     /// <param name="endDate">Конец периода.</param>
     /// <returns></returns>
-    public decimal GetTotalExpenseByPeriod(DateTime startDate, DateTime endDate)
+    public decimal GetSumExpenseByPeriod(DateTime startDate, DateTime endDate)
     {
         return connection.Table<ExpenseOperation>().Where(o => 
                 o.DateTime >= startDate && 
                 o.DateTime <= endDate)
-            .Sum(o => o.Sum);
+            .Sum(o => o.Amount);
     }
     
     /// <summary>
@@ -214,12 +220,12 @@ public class AppDBManager
     /// <param name="startDate">Начало периода.</param>
     /// <param name="endDate">Конец периода.</param>
     /// <returns></returns>
-    public decimal GetTotalIncomeByPeriod(DateTime startDate, DateTime endDate)
+    public decimal GetSumIncomeByPeriod(DateTime startDate, DateTime endDate)
     {
         return connection.Table<IncomeOperation>().Where(o => 
                 o.DateTime >= startDate && 
                 o.DateTime <= endDate)
-            .Sum(o => o.Sum);
+            .Sum(o => o.Amount);
     }
     
     /// <summary>

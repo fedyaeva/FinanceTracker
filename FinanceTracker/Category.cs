@@ -24,6 +24,11 @@ public abstract class Category
     public abstract void AddCategory(string name);
     
     /// <summary>
+    /// Получение категорий.
+    /// </summary>
+    public abstract List<Category> GetCategories();
+    
+    /// <summary>
     /// Удаление категории.
     /// </summary>
     public abstract void RemoveCategory();

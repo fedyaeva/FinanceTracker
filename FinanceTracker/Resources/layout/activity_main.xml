@@ -1,154 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <!-- Заголовок главного экрана -->
+        <TextView
+                android:id="@+id/titleMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Трекер финансов"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+        <!-- Раздел Расходы -->
+        <TextView
+                android:id="@+id/expensesHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Расходы"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+        <!-- Таблица расходов -->
+        <TableLayout
+                android:id="@+id/expensesTable"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_text"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="13dp"
-            android:layout_marginRight="131dp"/>
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/expense"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="60dp"
-            android:layout_marginRight="320dp"/>
+            <!-- Заголовки колонок -->
+            <TableRow>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Период"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сумма расходов"/>
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сегодня"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="90dp"
-            android:layout_marginRight="320dp"/>
+            <!-- День -->
+            <TableRow>
+                <TextView
+                        android:id="@+id/expensesDayLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="День"/>
+                <TextView
+                        android:id="@+id/expensesDayValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="90dp"
-            android:layout_marginRight="100dp"/>
+            <!-- Неделя -->
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Неделя"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/expensesWeekValue"/>
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Неделя"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="120dp"
-            android:layout_marginRight="320dp"/>
+            <!-- Месяц -->
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Месяц"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/expensesMonthValue"/>
+            </TableRow>
+        </TableLayout>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="120dp"
-            android:layout_marginRight="100dp"/>
+        <!-- Кнопки для расходов -->
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="8dp">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Месяц"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="150dp"
-            android:layout_marginRight="320dp"/>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonAddExpense"
+                    android:text="Добавить расход"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="150dp"
-            android:layout_marginRight="100dp"/>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonAllExpenses"
+                    android:text="Все расходы"
+                    android:layout_marginStart="16dp"/>
+        </LinearLayout>
+        
+        <!-- Раздел доходов -->
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/incomeHeader"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Доходы"
+                android:layout_marginTop ="24dp"/>
 
-    <Button
-            android:text="Добавить операцию"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" android:layout_marginTop="201dp" android:layout_marginLeft="36dp"
-            android:id="@+id/button"/>
+        <!-- Таблица доходов -->
+        <TableLayout
+                android:id="@+id/incomeTable"
+                android:layout_width= "match_parent"
+                android:layout_height= "wrap_content"
+                android:stretchColumns= "1">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/income"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="300dp"
-            android:layout_marginRight="320dp"/>
+            <!-- Заголовки колонок -->
+            <TableRow>
+                <TextView
+                        android:layout_width= "wrap_content"
+                        android:layout_height= "wrap_content"
+                        android:text= "Период"/>
+                <TextView
+                        android:layout_width= "wrap_content"
+                        android:layout_height= "wrap_content"
+                        android:text= "Сумма доходов"/>
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сегодня"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="330dp"
-            android:layout_marginRight="320dp"/>
+            <!-- День -->
+            <TableRow>
+                <TextView
+                        android:id= "@+id/incomeDayLabel"
+                        android:layout_width= "wrap_content"
+                        android:layout_height= "wrap_content"
+                        android:text= "День"/>
+                <TextView
+                        android:id= "@+id/incomeDayValue"
+                        android:layout_width= "wrap_content"
+                        android:layout_height= "wrap_content"/>
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="330dp"
-            android:layout_marginRight="100dp"/>
+            <!-- Неделя -->
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text= "Неделя"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id= "@+id/incomeWeekValue" />
+            </TableRow>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Неделя"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="360dp"
-            android:layout_marginRight="320dp"/>
+            <!-- Месяц -->
+            <TableRow>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text= "Месяц"/>
+                <TextView
+                        android:id="@+id/incomeMonthValue"
+                        android:layout_width ="wrap_content"
+                        android:layout_height ="wrap_content"/>
+            </TableRow>
+        </TableLayout>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="360dp"
-            android:layout_marginRight="100dp"/>
+        <!-- Кнопки для доходов -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation ="horizontal"
+                android:gravity ="center_horizontal"
+                android:layout_marginTop ="8dp">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Месяц"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="390dp"
-            android:layout_marginRight="320dp"/>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id ="@+id/buttonAddIncome"
+                    android:text =" Добавить доход "/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Сумма"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true" android:layout_alignParentTop="true" android:layout_marginTop="390dp"
-            android:layout_marginRight="100dp"/>
-
-    <Button
-            android:text="Добавить операцию"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" android:layout_marginTop="450dp" android:layout_marginLeft="36dp"
-            android:id="@+id/button1"/>
-    <Button
-            android:text="Все расходы"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button2" android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="276dp"
-            android:layout_marginLeft="42dp"/>
-
-    <Button
-            android:text="Все доходы"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button3" android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="276dp"
-            android:layout_marginLeft="200dp"/>
-
-</RelativeLayout>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id ="@+id/buttonAllIncome"
+                    android:text =" Все доходы "/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
