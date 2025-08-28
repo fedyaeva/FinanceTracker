@@ -31,7 +31,7 @@ public abstract class Category
     /// <summary>
     /// Удаление категории.
     /// </summary>
-    public abstract void RemoveCategory();
+    public abstract void RemoveCategory(int id);
     
     /// <summary>
     /// Переименование картегории.

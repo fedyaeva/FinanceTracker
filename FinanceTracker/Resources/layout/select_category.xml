@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:padding="16dp">
+              android:padding="50dp">
 
     <!-- Заголовок -->
     <TextView
@@ -11,17 +11,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Категория дохода"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"/>
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:layout_gravity="center"
+    android:layout_marginBottom="16dp"/>
 
     <!-- Список категорий -->
     <ListView
             android:id="@+id/listViewCategories"
-            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" android:layout_width="342dp"/>
 
     <!-- Поле для добавления новой категории -->
     <LinearLayout

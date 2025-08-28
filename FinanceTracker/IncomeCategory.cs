@@ -9,6 +9,16 @@ public class IncomeCategory : Category
     /// Менеджер работы с БД.
     /// </summary>
     private AppDBManager database;
+    
+    public IncomeCategory(AppDBManager database)
+    {
+        this.database = database;
+    }
+
+    public IncomeCategory()
+    {
+    }
+    
     public override void AddCategory(string name)
     {
         var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == Id);
@@ -24,7 +34,7 @@ public class IncomeCategory : Category
         return new List<Category>(database.GetIncomeCategories());
     }
 
-    public override void RemoveCategory()
+    public override void RemoveCategory(int id)
     {
         var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == Id);
         if (category == null)

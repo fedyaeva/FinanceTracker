@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:padding="50dp">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Сумма"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"/>
 
         <!-- Поле для категории -->
         <LinearLayout
@@ -52,7 +52,7 @@
                     android:textSize="16sp"
                     android:textColor="#0000FF"
                     android:paddingStart="8dp"
-                    android:maxLines="1" />
+                    android:maxLines="1"/>
 
         </LinearLayout>
 
@@ -77,68 +77,68 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id= "@+id/textViewDateLabel"
-                    android:text= "Дата:"
-                    android:textSize= "16sp" />
+                    android:id="@+id/textViewDateLabel"
+                    android:text="Дата:"
+                    android:textSize="16sp"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id= "@+id/textViewSelectedDate"
-                    android:text= "[Выберите дату]"
-                    android:textSize= "16sp"
-                    android:textColor= "#0000FF"
-                    android:paddingStart= "8dp"/>
+                    android:id="@+id/textViewSelectedDate"
+                    android:text="[Выберите дату]"
+                    android:textSize="16sp"
+                    android:textColor="#0000FF"
+                    android:paddingStart="8dp"/>
         </LinearLayout>
 
         <!-- Поле выбора времени -->
         <LinearLayout
-                android:id= "@+id/layoutTime"
-                android:layout_width ="match_parent"
-                android:layout_height ="wrap_content"
-                android:orientation ="horizontal"
-                android:gravity ="center_vertical">
+                android:id="@+id/layoutTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id= "@+id/textViewTimeLabel"
-                    android:text= "Время:"
-                    android:textSize= "16sp"/>
+                    android:id="@+id/textViewTimeLabel"
+                    android:text="Время:"
+                    android:textSize="16sp"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id= "@+id/textViewSelectedTime"
-                    android:text= "[Выберите время]"
-                    android:textSize= "16sp"
+                    android:id="@+id/textViewSelectedTime"
+                    android:text="[Выберите время]"
+                    android:textSize="16sp"
                     android:textColor="#0000FF"
-                    android:paddingStart= "8dp"/>
+                    android:paddingStart="8dp"/>
         </LinearLayout>
 
         <!-- Кнопки -->
         <LinearLayout
-                xmlns:android ="http://schemas.android.com/apk/res/android"
-                android:layout_width ="match_parent"
-                android:layout_height ="wrap_content"
-                android:orientation ="horizontal"
-                android:gravity ="center">
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
 
             <!-- Кнопка назад -->
             <Button
-                    android:id ="@+id/buttonBack"
-                    android:layout_width ="0dp"
-                    android:layout_weight ="1 "
-                    android:layout_height ="wrap_content"
-                    android:text ="Назад"/>
+                    android:id="@+id/buttonBack"
+                    android:layout_width="0dp"
+                    android:layout_weight="1 "
+                    android:layout_height="wrap_content"
+                    android:text="Назад"/>
 
             <!-- Кнопка сохранить -->
             <Button
-                    android:id ="@+id/buttonSave"
-                    android:layout_width ="0dp"
-                    android:layout_weight ="1 "
-                    android:layout_height ="wrap_content"
-                    android:text ="Сохранить"/>
+                    android:id="@+id/buttonSave"
+                    android:layout_width="0dp"
+                    android:layout_weight="1 "
+                    android:layout_height="wrap_content"
+                    android:text="Сохранить"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

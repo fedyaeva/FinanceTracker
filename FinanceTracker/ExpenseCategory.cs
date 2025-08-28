@@ -10,6 +10,15 @@ public class ExpenseCategory : Category
     /// </summary>
     private AppDBManager database;
     
+    public ExpenseCategory(AppDBManager database)
+    {
+        this.database = database;
+    }
+
+    public ExpenseCategory()
+    {
+    }
+    
     public override void AddCategory(string name)
     {
         var existingCategory = database.GetExpenseCategories().FirstOrDefault(x => x.Name == name);
@@ -26,7 +35,7 @@ public class ExpenseCategory : Category
         return new List<Category>(database.GetExpenseCategories());
     }
 
-    public override void RemoveCategory()
+    public override void RemoveCategory(int id)
     {
         var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);
         if (category == null)
