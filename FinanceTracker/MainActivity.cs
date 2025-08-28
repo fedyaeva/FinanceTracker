@@ -26,28 +26,28 @@ public class MainActivity : Activity
         buttonAddExpense.Click += (s, e) =>
         {
            var intent = new Intent(this, typeof(AddOperationActivity));
-           intent.PutExtra("operationType", "expense");
+           intent.PutExtra("operationType", "Расход");
            StartActivity(intent);
         };
 
         buttonAllExpenses.Click += (s, e) =>
         {
            var intent = new Intent(this, typeof(OperationSumByPeriodActivity));
-           intent.PutExtra("operationType", "expense");
+           intent.PutExtra("operationType", "Расход");
            StartActivity(intent);
         };
 
         buttonAddIncome.Click += (s, e) =>
         {
            var intent = new Intent(this, typeof(AddOperationActivity));
-           intent.PutExtra("operationType", "income");
+           intent.PutExtra("operationType", "Доход");
            StartActivity(intent);
         };
         
         buttonAllIncome.Click += (s, e) =>
         {
            var intent = new Intent(this, typeof(OperationSumByPeriodActivity));
-           intent.PutExtra("operationType", "income");
+           intent.PutExtra("operationType", "Доход");
            StartActivity(intent);
        };
         

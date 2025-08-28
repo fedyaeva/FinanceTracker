@@ -26,10 +26,13 @@ public class AddOperationActivity : Activity
         textViewSelectedDate = FindViewById<TextView>(Resource.Id.textViewSelectedDate);
         textViewSelectedTime = FindViewById<TextView>(Resource.Id.textViewSelectedTime);
 
+        string operationType = Intent.GetStringExtra("operationType") ?? "Доход";
+
         var layoutCategory = FindViewById<LinearLayout>(Resource.Id.layoutCategory);
         layoutCategory.Click += (s, e) =>
         {
             var intent = new Intent(this, typeof(SelectCategoryActivity));
+            intent.PutExtra("operationType", operationType);
             StartActivityForResult(intent, 100);
         };
 
@@ -54,8 +57,7 @@ public class AddOperationActivity : Activity
 
         selectedDateTime = DateTime.Now;
         UpdateDisplayedDateTime();
-
-        string operationType = Intent.GetStringExtra("OperationType") ?? "Доход";
+        
         textViewHeader.Text = operationType;
     }
 
@@ -65,10 +67,21 @@ public class AddOperationActivity : Activity
 
         if (requestCode == 100 && resultCode == Result.Ok && data != null)
         {
-            string categoryName = data.GetStringExtra("SelectedCategory");
-            if (!string.IsNullOrEmpty(categoryName))
+            try
             {
-                textViewCategoryName.Text = categoryName;
+                string categoryName = data.GetStringExtra("SelectedCategory");
+                if (!string.IsNullOrEmpty(categoryName))
+                {
+                    textViewCategoryName.Text = categoryName;
+                }
+                else
+                {
+                    Toast.MakeText(this, "Категория не выбрана", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "Ошибка при получении категории: " + ex.Message, ToastLength.Long).Show();
             }
         }
     }
@@ -111,8 +124,15 @@ public class AddOperationActivity : Activity
 
     private void UpdateDisplayedDateTime()
     {
-        textViewSelectedDate.Text = selectedDateTime.ToString("dd.MM.yyyy");
-        textViewSelectedTime.Text = selectedDateTime.ToString("HH:mm");
+        try
+        {
+            textViewSelectedDate.Text = selectedDateTime.ToString("dd.MM.yyyy");
+            textViewSelectedTime.Text = selectedDateTime.ToString("HH:mm");
+        }
+        catch (Exception ex)
+        {
+            Toast.MakeText(this, "Ошибка при обновлении даты: " + ex.Message, ToastLength.Long).Show();
+        }
     }
 
     private void SaveOperation()

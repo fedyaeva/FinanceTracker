@@ -31,7 +31,7 @@
         <!-- Поле для категории -->
         <LinearLayout
                 android:id="@+id/layoutCategory"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
@@ -46,7 +46,7 @@
 
             <TextView
                     android:id="@+id/textViewCategoryName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="[Выберите категорию]"
                     android:textSize="16sp"
@@ -75,15 +75,15 @@
                 android:gravity="center_vertical">
 
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/textViewDateLabel"
                     android:text="Дата:"
                     android:textSize="16sp"/>
 
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/textViewSelectedDate"
                     android:text="[Выберите дату]"
                     android:textSize="16sp"
@@ -94,14 +94,14 @@
         <!-- Поле выбора времени -->
         <LinearLayout
                 android:id="@+id/layoutTime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/textViewTimeLabel"
                     android:text="Время:"
                     android:textSize="16sp"/>
