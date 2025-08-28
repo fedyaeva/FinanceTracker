@@ -21,12 +21,13 @@ public class IncomeCategory : Category
     
     public override void AddCategory(string name)
     {
-        var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == Id);
-        if (category == null)
+        var existingCategory = database.GetIncomeCategories().FirstOrDefault(x => x.Name == name);
+        if (existingCategory != null)
         {
-            throw new Exception("Income category not found");
+            throw new Exception("Expense category already exists");
         }
-        database.DeleteIncomeCategory(category);
+        var newCategory = new IncomeCategory{Name = name};
+        database.AddIncomeCategory(newCategory);
     }
     
     public override List<Category> GetCategories()
@@ -36,7 +37,7 @@ public class IncomeCategory : Category
 
     public override void RemoveCategory(int id)
     {
-        var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == Id);
+        var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == id);
         if (category == null)
         {
             throw new Exception("Income category not found");
@@ -44,19 +45,19 @@ public class IncomeCategory : Category
         database.DeleteIncomeCategory(category);
     }
 
-    public override void RenameCategory()
+    public override void RenameCategory(int id, string name)
     {
-        var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == Id);
+        var category = database.GetIncomeCategories().FirstOrDefault(x => x.Id == id);
         if (category == null)
         {
             throw new Exception("Income category not found");
         }
-        var existingCategory = database.GetIncomeCategories().FirstOrDefault(x => x.Name == Name);
+        var existingCategory = database.GetIncomeCategories().FirstOrDefault(x => x.Name == name);
         if (existingCategory != null)
         {
             throw new Exception("Income category already exists");
         }
-        category.Name = Name;
+        category.Name = name;
         database.UpdateIncomeCategory(category);
     }
 }

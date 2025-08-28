@@ -5,286 +5,294 @@ namespace FinanceTracker;
 [Activity(Label = "SelectCategoryActivity")]
 public class SelectCategoryActivity : Activity
 {
-        private ListView listViewCategories;
-        private EditText editTextNewCategory;
-        private Button buttonAddCategory, buttonBack;
-        private TextView textViewTitle;
+    private ListView listViewCategories;
+    private EditText editTextNewCategory;
+    private Button buttonAddCategory, buttonBack;
+    private TextView textViewTitle;
 
-        private List<string> categories = new List<string>();
-        private ArrayAdapter<string> adapter;
+    private List<string> categories = new List<string>();
+    private ArrayAdapter<string> adapter;
 
-        private string operationType;
+    private string operationType;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+        SetContentView(Resource.Layout.select_category);
+
+        listViewCategories = FindViewById<ListView>(Resource.Id.listViewCategories);
+        editTextNewCategory = FindViewById<EditText>(Resource.Id.editTextNewCategory);
+        buttonAddCategory = FindViewById<Button>(Resource.Id.buttonAddCategory);
+        buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
+        textViewTitle = FindViewById<TextView>(Resource.Id.textViewTitle);
+
+        operationType = Intent.GetStringExtra("operationType") ?? "Доход";
+
+        textViewTitle.Text = operationType == "Расход" ? "Категория расхода" : "Категория дохода";
+
+        LoadCategories();
+
+        adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+        listViewCategories.Adapter = adapter;
+        listViewCategories.ChoiceMode = ChoiceMode.Single;
+
+        listViewCategories.ItemClick += (sender, e) =>
         {
-            base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.select_category);
-            
-            listViewCategories = FindViewById<ListView>(Resource.Id.listViewCategories);
-            editTextNewCategory = FindViewById<EditText>(Resource.Id.editTextNewCategory);
-            buttonAddCategory = FindViewById<Button>(Resource.Id.buttonAddCategory);
-            buttonBack = FindViewById<Button>(Resource.Id.buttonBack);
-            textViewTitle = FindViewById<TextView>(Resource.Id.textViewTitle);
-            
-            operationType = Intent.GetStringExtra("operationType") ?? "Доход";
-            
-            textViewTitle.Text = operationType == "Расход" ? "Категория расхода" : "Категория дохода";
-            
-            LoadCategories();
-            
-            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
-            listViewCategories.Adapter = adapter;
-            
-            listViewCategories.ChoiceMode = ChoiceMode.Single;
-            
-            listViewCategories.ItemClick += (sender, e) =>
+            string selectedCategory = categories[e.Position];
+
+            var resultIntent = new Intent();
+            resultIntent.PutExtra("SelectedCategory", selectedCategory);
+            SetResult(Result.Ok, resultIntent);
+            Finish();
+        };
+
+        listViewCategories.ItemLongClick += (s, e) =>
+        {
+            ShowContextMenu(e.Position);
+            e.Handled = true;
+        };
+
+        buttonAddCategory.Click += (s, e) =>
+        {
+            var newCatName = editTextNewCategory.Text.Trim();
+            if (!string.IsNullOrEmpty(newCatName))
             {
-                string selectedCategory = categories[e.Position];
-                
-                var resultIntent = new Intent();
-                resultIntent.PutExtra("SelectedCategory", selectedCategory);
-                SetResult(Result.Ok, resultIntent);
-                Finish();
-            };
-            
-            listViewCategories.ItemLongClick += (s, e) =>
-            {
-                ShowContextMenu(e.Position);
-                e.Handled = true;
-            };
-            
-            buttonAddCategory.Click += (s, e) =>
-            {
-                var newCatName = editTextNewCategory.Text.Trim();
-                if (!string.IsNullOrEmpty(newCatName))
+                if (!categories.Contains(newCatName))
                 {
-                    if (!categories.Contains(newCatName))
+                    bool success = AddCategoryToDB(newCatName);
+                    if (success)
                     {
                         categories.Add(newCatName);
-                        SaveCategories();
                         adapter.NotifyDataSetChanged();
                         editTextNewCategory.Text = "";
+                        Toast.MakeText(this, "Категория добавлена", ToastLength.Short).Show();
                     }
                     else
                     {
-                        Toast.MakeText(this, "Такая категория уже существует", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Ошибка при добавлении категории", ToastLength.Short).Show();
                     }
                 }
                 else
                 {
-                    Toast.MakeText(this, "Введите название категории", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Такая категория уже существует", ToastLength.Short).Show();
                 }
-            };
-            
-            buttonBack.Click += (s, e) => Finish();
-        }
-
-        private void LoadCategories()
-        {
-            AppDBManager database = new AppDBManager();
-            
-           categories.Clear();
-
-           if (operationType == "Доход")
-           {
-               var incomeCatManager = new IncomeCategory(database);
-               var incomeCats = incomeCatManager.GetCategories();
-               foreach (var cat in incomeCats)
-               {
-                   categories.Add(cat.Name);
-               }
-           }
-           else if (operationType == "Расход")
-           {
-               var expenseCatManager = new ExpenseCategory(database);
-               var expenseCats = expenseCatManager.GetCategories(); 
-               foreach (var cat in expenseCats)
-               {
-                   categories.Add(cat.Name);
-               }
-           }
-           adapter?.NotifyDataSetChanged();
-        }
-
-        private void ShowContextMenu(int position)
-        {
-            string categoryName = categories[position];
-
-            string[] options = { "Удалить", "Редактировать" };
-            
-            var builder = new AlertDialog.Builder(this);
-            
-            builder.SetItems(options, (sender, args) =>
+            }
+            else
             {
-                int which = args.Which;
-                if (which == 0)
-                {
-                    ConfirmAndDeleteCategory(position);
-                }
-                else if (which == 1)
-                {
-                    ShowEditCategoryDialog(position);
-                }
-            });
-            
-             builder.Show();
-        }
+                Toast.MakeText(this, "Введите название категории", ToastLength.Short).Show();
+            }
+        };
 
-        private void ConfirmAndDeleteCategory(int position)
+        buttonBack.Click += (s, e) => Finish();
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+        LoadCategories();
+    }
+
+    private void LoadCategories()
+    {
+        categories.Clear();
+
+        AppDBManager database = new AppDBManager();
+
+        if (operationType == "Доход")
         {
-             string categoryName = categories[position];
+            var incomeCatManager= new IncomeCategory(database);
+            var incomeCats= incomeCatManager.GetCategories();
+            foreach (var cat in incomeCats)
+                categories.Add(cat.Name);
+        }
+        else if (operationType == "Расход")
+        {
+            var expenseCatManager= new ExpenseCategory(database);
+            var expenseCats= expenseCatManager.GetCategories();
+            foreach (var cat in expenseCats)
+                categories.Add(cat.Name);
+        }
+        adapter?.NotifyDataSetChanged();
+    }
 
-             var alertBuilder = new AlertDialog.Builder(this);
-             alertBuilder.SetMessage($"Вы уверены, что хотите удалить '{categoryName}'?");
-             alertBuilder.SetPositiveButton("Да", (senderAlert, args) =>
-             {
-                 DeleteCategoryFromDB(categoryName);
-                 categories.RemoveAt(position);
-                 SaveCategories();
-                 adapter.NotifyDataSetChanged();
-             });
-             alertBuilder.SetNegativeButton("Нет", (sender, args) => { });
-             alertBuilder.Show();
-         }
+    private void ShowContextMenu(int position)
+    {
+        string categoryName= categories[position];
 
-         private void ShowEditCategoryDialog(int position)
-         {
-             string oldName = categories[position];
+        string[] options= { "Удалить", "Редактировать" };
 
-             var inputEditText = new EditText(this) { Text = oldName };
+        var builder= new AlertDialog.Builder(this);
+        builder.SetItems(options, (sender, args) =>
+        {
+            int which= args.Which;
+            if (which==0)
+                ConfirmAndDeleteCategory(position);
+            else if (which==1)
+                ShowEditCategoryDialog(position);
+        });
+        builder.Show();
+    }
 
-             var dialogBuilder = new AlertDialog.Builder(this);
-             dialogBuilder.SetTitle("Редактировать категорию");
-             dialogBuilder.SetView(inputEditText);
+    private void ConfirmAndDeleteCategory(int position)
+    {
+        string categoryName= categories[position];
 
-             dialogBuilder.SetPositiveButton("Сохранить", (senderAlert, args) =>
-             {
-                 string newName = inputEditText.Text.Trim();
-                 if (!string.IsNullOrEmpty(newName))
-                 {
-                     if (!categories.Contains(newName))
-                     {
-                         RenameCategoryInDB(oldName, newName);
-                         categories[position] = newName;
-                         SaveCategories();
-                         adapter.NotifyDataSetChanged();
-                     }
-                     else
-                     {
-                         Toast.MakeText(this, "Такая категория уже существует", ToastLength.Short).Show();
-                     }
-                 }
-                 else
-                 {
-                     Toast.MakeText(this, "Имя не может быть пустым", ToastLength.Short).Show();
-                 }
-             });
-             dialogBuilder.SetNegativeButton("Отмена", (sender, args) => { });
-             dialogBuilder.Show();
-         }
+        var alertBuilder= new AlertDialog.Builder(this);
+        alertBuilder.SetMessage($"Вы уверены, что хотите удалить '{categoryName}'?");
+        alertBuilder.SetPositiveButton("Да", (senderAlert, args) =>
+        {
+            bool success= DeleteCategoryFromDB(categoryName);
+            if(success)
+            {
+                categories.RemoveAt(position);
+                adapter.NotifyDataSetChanged();
+                Toast.MakeText(this, "Категория удалена", ToastLength.Short).Show();
+            }
+            else
+            {
+                Toast.MakeText(this, "Ошибка при удалении категории", ToastLength.Short).Show();
+            }
+        });
+        alertBuilder.SetNegativeButton("Нет", (sender, args) => { });
+        alertBuilder.Show();
+    }
 
-         private void SaveCategories()
-         {
-             AppDBManager database = new AppDBManager();
+    private void ShowEditCategoryDialog(int position)
+    {
+       string oldName= categories[position];
 
-             if (operationType == "Доход")
-             {
-                 var incomeCatManager = new IncomeCategory(database);
+       var inputEditText= new EditText(this){ Text= oldName };
 
-                 foreach (var name in categories)
-                 {
-                     try
-                     {
-                         incomeCatManager.AddCategory(name);
-                     }
-                     catch
-                     {
-                         // Можно оставить пустым или логировать ошибку
-                     }
-                 }
-             }
-             else if (operationType == "Расход")
-             {
-                 var expenseCatManager = new ExpenseCategory(database);
+       var dialogBuilder= new AlertDialog.Builder(this);
+       dialogBuilder.SetTitle("Редактировать категорию");
+       dialogBuilder.SetView(inputEditText);
 
-                 foreach (var name in categories)
-                 {
-                     try
-                     {
-                         expenseCatManager.AddCategory(name);
-                     }
-                     catch
-                     {
-                         // Обработка ошибок при добавлении
-                     }
-                 }
-             }
-         }
-         private void DeleteCategoryFromDB(string categoryName)
-         {
-             AppDBManager database = new AppDBManager();
-             
-             if (operationType == "Доход")
-             {
-                  var incomeCatManager= new IncomeCategory(database);
+       dialogBuilder.SetPositiveButton("Сохранить", (senderAlert, args) =>
+       {
+           string newName= inputEditText.Text.Trim();
 
-                  var categoryToDelete= incomeCatManager.GetCategories().FirstOrDefault(c => c.Name==categoryName);
+           if(!string.IsNullOrEmpty(newName))
+           {
+               if(!categories.Contains(newName))
+               {
+                   bool success= RenameCategoryInDB(oldName,newName);
 
-                  if(categoryToDelete != null)
-                  {
-                      incomeCatManager.RemoveCategory(categoryToDelete.Id); 
-                  }
-             }
-             else if(operationType=="Расход")
-             {
-
-                  var expenseCatManager= new ExpenseCategory(database);
-
-                  var categoryToDelete= expenseCatManager.GetCategories().FirstOrDefault(c => c.Name==categoryName);
-
-                  if(categoryToDelete != null)
-                  {
-                      expenseCatManager.RemoveCategory(categoryToDelete.Id); 
-                  }
-
-             }
-         }
-
-         private void RenameCategoryInDB(string oldName, string newName)
-         {
-             AppDBManager database = new AppDBManager();
-
-              if(operationType=="Доход")
-              {
-
-                   var incomeCatManager= new IncomeCategory(database);
-
-                   var category= incomeCatManager.GetCategories().FirstOrDefault(c=>c.Name==oldName);
-
-                   if(category != null)
+                   if(success)
                    {
-
-                       category.Name= newName;
-
-                       try{incomeCatManager.RenameCategory();} catch{}
+                       categories[position]= newName;
+                       adapter.NotifyDataSetChanged();
+                       Toast.MakeText(this,"Категория обновлена",ToastLength.Short).Show();
                    }
-
-              }else if(operationType=="Расход")
-              {
-
-                   var expenseCatManager= new ExpenseCategory(database);
-
-                   var category= expenseCatManager.GetCategories().FirstOrDefault(c=>c.Name==oldName);
-
-                   if(category != null)
+                   else
                    {
-
-                       category.Name= newName;
-
-                       try{expenseCatManager.RenameCategory();} catch{}
+                       Toast.MakeText(this,"Ошибка при обновлении категории",ToastLength.Short).Show();
                    }
+               }
+               else
+               {
+                   Toast.MakeText(this,"Такая категория уже существует",ToastLength.Short).Show();
+               }
+           }
+           else
+           {
+               Toast.MakeText(this,"Имя не может быть пустым",ToastLength.Short).Show();
+           }
+       });
+       dialogBuilder.SetNegativeButton("Отмена", (sender, args)=>{});
+       dialogBuilder.Show();
+   }
+    
+   private bool AddCategoryToDB(string categoryName)
+   {
+       try
+       {
+           AppDBManager database= new AppDBManager();
 
-              }
+           if(operationType=="Доход")
+           {
+               var incomeCatManager= new IncomeCategory(database);
+               incomeCatManager.AddCategory(categoryName);
+           }
+           else if(operationType=="Расход")
+           {
+               var expenseCatManager= new ExpenseCategory(database);
+               expenseCatManager.AddCategory(categoryName);
+           }
+           return true;
+       }
+       catch
+       {
+           return false;
+       }
+   }
 
-         }
+   private bool DeleteCategoryFromDB(string categoryName)
+   {
+       try
+       {
+           AppDBManager database= new AppDBManager();
+
+           if(operationType=="Доход")
+           {
+               var incomeCatManager= new IncomeCategory(database);
+
+               var categoryToDelete= incomeCatManager.GetCategories().FirstOrDefault(c=>c.Name==categoryName);
+
+               if(categoryToDelete != null)
+                   incomeCatManager.RemoveCategory(categoryToDelete.Id); 
+           }
+           else if(operationType=="Расход")
+           {
+
+               var expenseCatManager= new ExpenseCategory(database);
+
+               var categoryToDelete= expenseCatManager.GetCategories().FirstOrDefault(c=>c.Name==categoryName);
+
+               if(categoryToDelete != null)
+                   expenseCatManager.RemoveCategory(categoryToDelete.Id); 
+           }
+           return true;
+       }
+       catch
+       { 
+          return false; 
+       }
+   }
+
+   private bool RenameCategoryInDB(string oldName, string newName)
+   {
+       try
+       {
+           AppDBManager database= new AppDBManager();
+
+           if(operationType=="Доход")
+           {
+               var incomeCatManager= new IncomeCategory(database);
+               var category= incomeCatManager.GetCategories().FirstOrDefault(c=>c.Name==oldName);
+
+               if(category != null)
+               {
+                   incomeCatManager.RenameCategory(category.Id, newName);
+                   return true;
+               }
+           }
+           else if(operationType=="Расход")
+           {
+               var expenseCatManager= new ExpenseCategory(database);
+               var category= expenseCatManager.GetCategories().FirstOrDefault(c=>c.Name==oldName);
+
+               if(category != null)
+               {
+                   expenseCatManager.RenameCategory(category.Id, newName);
+                   return true;
+               }
+           }
+       }
+       catch (Exception ex)
+       {
+           return false;
+       }
+
+       return false;
+   }
 }

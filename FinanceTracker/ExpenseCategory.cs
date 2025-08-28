@@ -37,7 +37,7 @@ public class ExpenseCategory : Category
 
     public override void RemoveCategory(int id)
     {
-        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);
+        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == id);
         if (category == null)
         {
             throw new Exception("Expense category not found");
@@ -45,19 +45,19 @@ public class ExpenseCategory : Category
         database.DeleteExpenseCategory(category);
     }
 
-    public override void RenameCategory()
+    public override void RenameCategory(int id, string name)
     {
-        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == Id);
+        var category = database.GetExpenseCategories().FirstOrDefault(x => x.Id == id);
         if (category == null)
         {
             throw new Exception("Expense category not found");
         }
-        var existingCategory = database.GetExpenseCategories().FirstOrDefault(x => x.Name == Name);
+        var existingCategory = database.GetExpenseCategories().FirstOrDefault(x => x.Name == name);
         if (existingCategory != null)
         {
             throw new Exception("Expense category already exists");
         }
-        category.Name = Name;
+        category.Name = name;
         database.UpdateExpenseCategory(category);
     }
 }
