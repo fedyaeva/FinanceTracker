@@ -14,4 +14,9 @@
         -->
         <TrimMode>full</TrimMode>
     </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="SQLite" Version="3.13.0" />
+      <PackageReference Include="sqlite-net-pcl" Version="1.10.196-beta" />
+        <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.4" />
+    </ItemGroup>
 </Project>
