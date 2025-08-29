@@ -17,6 +17,7 @@ public class ExpenseCategory : Category
 
     public ExpenseCategory()
     {
+        this.database = new AppDBManager();
     }
     
     public override void AddCategory(string name)
@@ -33,6 +34,11 @@ public class ExpenseCategory : Category
     public override List<Category> GetCategories()
     {
         return new List<Category>(database.GetExpenseCategories());
+    }
+    
+    public override Category GetCategoryByName(string name)
+    {
+        return database.GetExpenseCategories().FirstOrDefault(c => c.Name == name);
     }
 
     public override void RemoveCategory(int id)

@@ -53,7 +53,7 @@ public class ExpenseOperation : Operation
     public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
         ExpenseCategory expenseCategory = new ExpenseCategory();
-        var operations = database.GetIncomeOperationsByPeriod(startDate, endDate);
+        var operations = database.GetExpenseOperationsByPeriod(startDate, endDate);
         
         var categories = expenseCategory.GetCategories();
     

@@ -27,6 +27,13 @@ public abstract class Category
     /// Получение категорий.
     /// </summary>
     public abstract List<Category> GetCategories();
+
+    /// <summary>
+    /// Получение категории по имени.
+    /// </summary>
+    /// <param name="name">Имя категории.</param>
+    /// <returns></returns>
+    public abstract Category GetCategoryByName(string name);
     
     /// <summary>
     /// Удаление категории.

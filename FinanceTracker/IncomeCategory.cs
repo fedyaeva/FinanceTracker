@@ -17,6 +17,7 @@ public class IncomeCategory : Category
 
     public IncomeCategory()
     {
+        this.database = new AppDBManager();
     }
     
     public override void AddCategory(string name)
@@ -33,6 +34,11 @@ public class IncomeCategory : Category
     public override List<Category> GetCategories()
     {
         return new List<Category>(database.GetIncomeCategories());
+    }
+    
+    public override Category GetCategoryByName(string name)
+    {
+        return database.GetIncomeCategories().FirstOrDefault(c => c.Name == name);
     }
 
     public override void RemoveCategory(int id)

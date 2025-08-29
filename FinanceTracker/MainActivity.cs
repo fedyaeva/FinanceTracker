@@ -15,8 +15,9 @@ public class MainActivity : Activity
         SetContentView(Resource.Layout.activity_main);
         
         database = new AppDB();
-        
         database.Initialize();
+
+        new AppDBManager();
         
         var buttonAddExpense = FindViewById<Button>(Resource.Id.buttonAddExpense);
         var buttonAllExpenses = FindViewById<Button>(Resource.Id.buttonAllExpenses);

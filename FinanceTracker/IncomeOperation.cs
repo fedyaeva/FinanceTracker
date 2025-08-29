@@ -53,8 +53,8 @@ public class IncomeOperation : Operation
     public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
         IncomeCategory incomeCategory = new IncomeCategory();
-        var operations = database.GetIncomeOperationsByPeriod(startDate, endDate);
         
+        var operations = database.GetIncomeOperationsByPeriod(startDate, endDate);
         var categories = incomeCategory.GetCategories();
     
         List<CategorySum> groupedSums = operations

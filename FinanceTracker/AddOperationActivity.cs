@@ -164,22 +164,26 @@ public class AddOperationActivity : Activity
         switch (operationType)
         {
             case "Расход":
+                ExpenseCategory expenseCategory = new ExpenseCategory(new AppDBManager());
+                int categoryIdExpense = expenseCategory.GetCategoryByName(categoryName).Id;
                 ExpenseOperation expenseOperation = new ExpenseOperation(new AppDBManager())
                 {
                     Amount = amount,
-                   // Category = categoryName,
                     Comment = comment,
                     DateTime = selectedDateTime,
+                    CategoryId = categoryIdExpense,
                 };
                 expenseOperation.AddOperation();
                 break;
             case "Доход":
+                IncomeCategory incomeCategory = new IncomeCategory(new AppDBManager());
+                int categoryIdIncome = incomeCategory.GetCategoryByName(categoryName).Id;
                 IncomeOperation incomeOperation = new IncomeOperation(new AppDBManager())
                 {
                     Amount = amount,
-                  //  Category = categoryName,
                     Comment = comment,
                     DateTime = selectedDateTime,
+                    CategoryId = categoryIdIncome,
                 };
                 incomeOperation.AddOperation();
                 break;
