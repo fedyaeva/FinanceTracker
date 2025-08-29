@@ -2,6 +2,9 @@ using SQLite;
 
 namespace FinanceTracker;
 
+/// <summary>
+/// Менеджер работы с БД.
+/// </summary>
 public class AppDBManager
 {
     private SQLiteConnection connection;

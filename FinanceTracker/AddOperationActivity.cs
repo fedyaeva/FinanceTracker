@@ -2,6 +2,9 @@ using Android.Content;
 
 namespace FinanceTracker;
 
+/// <summary>
+/// Обработчик экрана добавления операции.
+/// </summary>
 [Activity(Label = "AddOperationActivity")]
 public class AddOperationActivity : Activity
 {
@@ -13,12 +16,16 @@ public class AddOperationActivity : Activity
     private TextView textViewSelectedTime;
 
     private DateTime selectedDateTime;
-
+    
+    /// <summary>
+    /// Инициализация компонентов.
+    /// </summary>
+    /// <param name="savedInstanceState"></param>
     protected override void OnCreate(Bundle savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
-        SetContentView(Resource.Layout.add_operation);
-
+        SetContentView(Resource.Layout.add_operation); 
+        
         textViewHeader = FindViewById<TextView>(Resource.Id.textViewHeader);
         editTextAmount = FindViewById<EditText>(Resource.Id.editTextAmount);
         textViewCategoryName = FindViewById<TextView>(Resource.Id.textViewCategoryName);
@@ -61,6 +68,12 @@ public class AddOperationActivity : Activity
         textViewHeader.Text = operationType;
     }
 
+    /// <summary>
+    /// Установка выбранной категории.
+    /// </summary>
+    /// <param name="requestCode"></param>
+    /// <param name="resultCode"></param>
+    /// <param name="data"></param>
     protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
     {
         base.OnActivityResult(requestCode, resultCode, data);
@@ -85,7 +98,10 @@ public class AddOperationActivity : Activity
             }
         }
     }
-
+    
+    /// <summary>
+    /// Показать календарь выбора даты.
+    /// </summary>
     private void ShowDatePicker()
     {
         var datePickerDialog = new DatePickerDialog(this,
@@ -101,7 +117,10 @@ public class AddOperationActivity : Activity
 
         datePickerDialog.Show();
     }
-
+    
+    /// <summary>
+    /// Показать диалог выбора времени.
+    /// </summary>
     private void ShowTimePicker()
     {
         var timePickerDialog = new TimePickerDialog(this,
@@ -122,6 +141,9 @@ public class AddOperationActivity : Activity
         timePickerDialog.Show();
     }
 
+    /// <summary>
+    /// Изменение отображения даты и времени.
+    /// </summary>
     private void UpdateDisplayedDateTime()
     {
         try
@@ -135,6 +157,9 @@ public class AddOperationActivity : Activity
         }
     }
 
+    /// <summary>
+    /// Сохранение операции.
+    /// </summary>
     private void SaveOperation()
     {
         string amountText = editTextAmount.Text.Trim();

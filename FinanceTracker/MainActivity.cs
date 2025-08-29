@@ -3,11 +3,18 @@ using SQLite;
 
 namespace FinanceTracker;
 
+/// <summary>
+/// Обработчик главного экрана.
+/// </summary>
 [Activity(Label = "@string/app_name", MainLauncher = true)]
 public class MainActivity : Activity
 {
     private AppDB database;
 
+    /// <summary>
+    /// Инициальзация компонентов.
+    /// </summary>
+    /// <param name="savedInstanceState"></param>
     protected override void OnCreate(Bundle savedInstanceState)
     {
         base.OnCreate(savedInstanceState);

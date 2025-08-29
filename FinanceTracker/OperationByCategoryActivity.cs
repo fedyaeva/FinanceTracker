@@ -1,5 +1,8 @@
 namespace FinanceTracker;
 
+/// <summary>
+/// Обработчик экрана отображения операций по категории.
+/// </summary>
 [Activity(Label = "OperationByCategoryActivity")]
 public class OperationByCategoryActivity : Activity
 {
@@ -24,6 +27,10 @@ public class OperationByCategoryActivity : Activity
     private int categoryId;
     private string categoryName;
 
+    /// <summary>
+    /// Инициализация компонентов.
+    /// </summary>
+    /// <param name="savedInstanceState"></param>
     protected override void OnCreate(Bundle savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
@@ -38,13 +45,13 @@ public class OperationByCategoryActivity : Activity
         categoryName = Intent.GetStringExtra("CategoryName");
         textViewHeader.Text = categoryName;
 
-        string startRangeStr = Intent.GetStringExtra("StartRange");
-        string endRangeStr = Intent.GetStringExtra("EndRange");
+        string startPeriod = Intent.GetStringExtra("StartRange");
+        string endPeriod = Intent.GetStringExtra("EndRange");
 
         try
         {
-            DateTime startDate = DateTime.Parse(startRangeStr);
-            DateTime endDate = DateTime.Parse(endRangeStr);
+            DateTime startDate = DateTime.Parse(startPeriod);
+            DateTime endDate = DateTime.Parse(endPeriod);
 
             LoadOperations(startDate, endDate);
             
@@ -72,6 +79,10 @@ public class OperationByCategoryActivity : Activity
         buttonBack.Click += (s, e) => Finish();
     }
 
+    /// <summary>
+    /// Показ контекстного меню.
+    /// </summary>
+    /// <param name="position">Позиция.</param>
     private void ShowContextMenu(int position)
     {
         string[] options = { "Удалить" };
@@ -85,7 +96,11 @@ public class OperationByCategoryActivity : Activity
         });
         builder.Show();
     }
-
+    
+    /// <summary>
+    /// Подтверждение и удаление операции.
+    /// </summary>
+    /// <param name="position"></param>
     private void ConfirmAndDeleteOperation(int position)
     {
         var operation = operationsList[position];
@@ -121,6 +136,11 @@ public class OperationByCategoryActivity : Activity
         alertBuilder.Show();
     }
 
+    /// <summary>
+    /// Удаление операции из БД.
+    /// </summary>
+    /// <param name="operationId"></param>
+    /// <returns></returns>
     private bool DeleteOperationFromDB(int operationId)
     {
         try
@@ -153,6 +173,11 @@ public class OperationByCategoryActivity : Activity
         }
     }
 
+    /// <summary>
+    /// Загрузка операций.
+    /// </summary>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
     private void LoadOperations(DateTime startDate, DateTime endDate)
     {
         database = new AppDBManager();

@@ -1,7 +1,7 @@
 namespace FinanceTracker;
 
 /// <summary>
-/// Категория прихода.
+/// Категория дохода.
 /// </summary>
 public class IncomeCategory : Category
 {

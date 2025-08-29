@@ -1,5 +1,8 @@
 namespace FinanceTracker;
 
+/// <summary>
+/// Операция дохода.
+/// </summary>
 public class IncomeOperation : Operation
 {
     /// <summary>

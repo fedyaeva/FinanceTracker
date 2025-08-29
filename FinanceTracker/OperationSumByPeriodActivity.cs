@@ -1,10 +1,12 @@
 using Android.Content;
+namespace FinanceTracker; 
 
-namespace FinanceTracker
+/// <summary>
+/// Обработчик экрана отображения сумм операций по категориям.
+/// </summary>
+[Activity(Label = "OperationSumByPeriodActivity")]
+public class OperationSumByPeriodActivity : Activity
 {
-    [Activity(Label = "OperationSumByPeriodActivity")]
-    public class OperationSumByPeriodActivity : Activity
-    {
         private Button buttonBack;
         private Button buttonPrev;
         private Button buttonNext;
@@ -31,6 +33,10 @@ namespace FinanceTracker
 
         private List<CategorySum> categorySums = new List<CategorySum>();
         
+        /// <summary>
+        /// Инициализация компонентов.
+        /// </summary>
+        /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -51,10 +57,9 @@ namespace FinanceTracker
             currentDate = DateTime.Now;
             
             adapter = new ArrayAdapter<CategorySum>(this, Android.Resource.Layout.SimpleListItem1, categorySums);
-           // listViewCategoriesSum.Adapter = adapter;
 
             UpdatePeriodDisplay();
-            LoadAndDisplayData();
+            LoadAndDisplaySumByPeriod();
 
             buttonBack.Click += (s, e) => Finish();
 
@@ -62,14 +67,14 @@ namespace FinanceTracker
             {
                 ChangePeriod(-1);
                 UpdatePeriodDisplay();
-                LoadAndDisplayData();
+                LoadAndDisplaySumByPeriod();
             };
 
             buttonNext.Click += (s, e) =>
             {
                 ChangePeriod(1);
                 UpdatePeriodDisplay();
-                LoadAndDisplayData();
+                LoadAndDisplaySumByPeriod();
             };
 
             textViewPeriodTitle.Click += (s, e) => ShowPeriodTypeDialog();
@@ -84,14 +89,17 @@ namespace FinanceTracker
                 intent.PutExtra("CategoryId", categorySum.CategoryId);
                 intent.PutExtra("CategoryName", categorySum.CategoryName);
                 intent.PutExtra("OperationType", operationType);
-                string startRangeStr = startRange.ToString("o");
-                string endRangeStr = endRange.ToString("o");
-                intent.PutExtra("StartRange", startRangeStr);
-                intent.PutExtra("EndRange", endRangeStr);
+                string startPeriod = startRange.ToString("o");
+                string endPeriod = endRange.ToString("o");
+                intent.PutExtra("StartRange", startPeriod);
+                intent.PutExtra("EndRange", endPeriod);
                 StartActivity(intent);
             };
         }
 
+        /// <summary>
+        /// Показать диалог выбора периорда.
+        /// </summary>
         private void ShowPeriodTypeDialog()
         {
             string[] options = new string[]
@@ -134,11 +142,15 @@ namespace FinanceTracker
                 currentPeriodType = selectedType;
                 UpdateCurrentDateToStartOfSelectedPeriod();
                 UpdatePeriodDisplay();
-                LoadAndDisplayData();
+                LoadAndDisplaySumByPeriod();
             });
             builder.Show();
         }
 
+        /// <summary>
+        /// Изменение периода.
+        /// </summary>
+        /// <param name="delta"></param>
         private void ChangePeriod(int delta)
         {
             switch (currentPeriodType)
@@ -161,9 +173,12 @@ namespace FinanceTracker
             
             UpdateCurrentDateToStartOfSelectedPeriod();
             UpdatePeriodDisplay();
-            LoadAndDisplayData();
+            LoadAndDisplaySumByPeriod();
         }
-
+        
+        /// <summary>
+        /// Изменение даты начала периода.
+        /// </summary>
         private void UpdateCurrentDateToStartOfSelectedPeriod()
         {
             switch (currentPeriodType)
@@ -185,8 +200,12 @@ namespace FinanceTracker
                     break;
             }
         }
-
-        private DateTime GetStartOfCurrentPeriodicRange()
+        
+        /// <summary>
+        /// Получение текущего периода.
+        /// </summary>
+        /// <returns></returns>
+        private DateTime GetStartOfCurrentPeriod()
         {
             switch (currentPeriodType)
             {
@@ -203,7 +222,10 @@ namespace FinanceTracker
                     return DateTime.MinValue;
             }
         }
-
+        
+        /// <summary>
+        /// Изменение отображение периода.
+        /// </summary>
         private void UpdatePeriodDisplay()
         {
             string titleText = "";
@@ -213,23 +235,23 @@ namespace FinanceTracker
             {
                 case PeriodType.Day:
                     titleText = "День";
-                    var dayStart = GetStartOfCurrentPeriodicRange();
+                    var dayStart = GetStartOfCurrentPeriod();
                     displayText = dayStart.ToString("dd.MM.yyyy");
                     break;
                 case PeriodType.Week:
                     titleText = "Неделя";
-                    var weekStart = GetStartOfCurrentPeriodicRange();
+                    var weekStart = GetStartOfCurrentPeriod();
                     var weekEnd = weekStart.AddDays(6);
                     displayText = $"{weekStart.ToString("dd.MM")} - {weekEnd.ToString("dd.MM")}";
                     break;
                 case PeriodType.Month:
                     titleText = "Месяц";
-                    var monthStart = GetStartOfCurrentPeriodicRange();
+                    var monthStart = GetStartOfCurrentPeriod();
                     displayText = monthStart.ToString("MMMM yyyy");
                     break;
                 case PeriodType.Year:
                     titleText = "Год";
-                    var yearStart = GetStartOfCurrentPeriodicRange();
+                    var yearStart = GetStartOfCurrentPeriod();
                     displayText = yearStart.ToString("yyyy");
                     break;
                 case PeriodType.AllTime:
@@ -245,7 +267,10 @@ namespace FinanceTracker
             textViewCurrentPeriodDisplay.Text = displayText;
         }
 
-        private void LoadAndDisplayData()
+        /// <summary>
+        /// Загрузка отображения сумм операций по категории.
+        /// </summary>
+        private void LoadAndDisplaySumByPeriod()
         {
             categorySums.Clear();
 
@@ -254,7 +279,7 @@ namespace FinanceTracker
 
             if (currentPeriodType != PeriodType.AllTime)
             {
-                startRange = GetStartOfCurrentPeriodicRange();
+                startRange = GetStartOfCurrentPeriod();
 
                 switch (currentPeriodType)
                 {
@@ -274,7 +299,6 @@ namespace FinanceTracker
             }
 
             List<CategorySum> sums = null;
-
             if (database == null)
             {
                 database = new AppDBManager();
@@ -308,4 +332,3 @@ namespace FinanceTracker
             } 
         }
     }
-}

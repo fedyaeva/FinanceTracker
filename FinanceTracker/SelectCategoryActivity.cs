@@ -2,6 +2,9 @@ using Android.Content;
 
 namespace FinanceTracker;
 
+/// <summary>
+/// Обработчик экрана выбора категории.
+/// </summary>
 [Activity(Label = "SelectCategoryActivity")]
 public class SelectCategoryActivity : Activity
 {
@@ -15,6 +18,10 @@ public class SelectCategoryActivity : Activity
 
     private string operationType;
 
+    /// <summary>
+    /// Инициализация компонентов.
+    /// </summary>
+    /// <param name="savedInstanceState"></param>
     protected override void OnCreate(Bundle savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
@@ -88,13 +95,19 @@ public class SelectCategoryActivity : Activity
 
         buttonBack.Click += (s, e) => Finish();
     }
-
+    
+    /// <summary>
+    /// Обновление.
+    /// </summary>
     protected override void OnResume()
     {
         base.OnResume();
         LoadCategories();
     }
 
+    /// <summary>
+    /// Загрузка категорий.
+    /// </summary>
     private void LoadCategories()
     {
         categories.Clear();
@@ -120,6 +133,10 @@ public class SelectCategoryActivity : Activity
         adapter?.NotifyDataSetChanged();
     }
 
+    /// <summary>
+    /// Показать контекстное меню.
+    /// </summary>
+    /// <param name="position">Позиция.</param>
     private void ShowContextMenu(int position)
     {
         string categoryName= categories[position];
@@ -138,6 +155,10 @@ public class SelectCategoryActivity : Activity
         builder.Show();
     }
 
+    /// <summary>
+    /// Подтверждение и удаление категории.
+    /// </summary>
+    /// <param name="position"></param>
     private void ConfirmAndDeleteCategory(int position)
     {
         string categoryName= categories[position];
@@ -164,6 +185,10 @@ public class SelectCategoryActivity : Activity
         alertBuilder.Show();
     }
 
+    /// <summary>
+    /// Показать диалог изменения категории.
+    /// </summary>
+    /// <param name="position">Позиция.</param>
     private void ShowEditCategoryDialog(int position)
     {
        string oldName= categories[position];
@@ -214,6 +239,11 @@ public class SelectCategoryActivity : Activity
        dialogBuilder.Show();
    }
     
+    /// <summary>
+    /// Добавление категории в БД.
+    /// </summary>
+    /// <param name="categoryName">Имя категории.</param>
+    /// <returns></returns>
    private bool AddCategoryToDB(string categoryName)
    {
        try
@@ -238,6 +268,11 @@ public class SelectCategoryActivity : Activity
        }
    }
 
+    /// <summary>
+    /// Удаление категории из БД.
+    /// </summary>
+    /// <param name="categoryName">Имя категории.</param>
+    /// <returns></returns>
    private bool DeleteCategoryFromDB(string categoryName)
    {
        try
@@ -275,6 +310,12 @@ public class SelectCategoryActivity : Activity
        }
    }
 
+    /// <summary>
+    /// Переименование категории.
+    /// </summary>
+    /// <param name="oldName"></param>
+    /// <param name="newName"></param>
+    /// <returns></returns>
    private bool RenameCategoryInDB(string oldName, string newName)
    {
        try
