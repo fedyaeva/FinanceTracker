@@ -130,7 +130,7 @@ public class SelectCategoryActivity : Activity
         }
         adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
         listViewCategories.Adapter = adapter;
-        adapter?.NotifyDataSetChanged();
+        adapter.NotifyDataSetChanged();
     }
 
     /// <summary>
