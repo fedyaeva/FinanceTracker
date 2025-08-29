@@ -7,6 +7,7 @@ public class OperationByCategoryActivity : Activity
     private Button buttonBack;
     private TextView textViewHeader;
     private AppDBManager database;
+    private ArrayAdapter<string> adapter;
 
     public class Operation
     {
@@ -54,7 +55,7 @@ public class OperationByCategoryActivity : Activity
                 operationsStrings.Add(displayText);
             }
 
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, operationsStrings);
+            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, operationsStrings);
             listViewOperations.Adapter = adapter;
             
             listViewOperations.ItemLongClick += (s, e) =>
@@ -100,7 +101,10 @@ public class OperationByCategoryActivity : Activity
                 {
                     operationsList.RemoveAt(position);
                     operationsStrings.RemoveAt(position);
+                    adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, operationsStrings);
+                    listViewOperations.Adapter = adapter;
                     (listViewOperations.Adapter as ArrayAdapter<string>)?.NotifyDataSetChanged();
+                    adapter.NotifyDataSetChanged();
                     Toast.MakeText(this, "Операция удалена", ToastLength.Short).Show();
                 }
                 else

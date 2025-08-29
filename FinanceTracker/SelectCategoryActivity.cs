@@ -60,6 +60,9 @@ public class SelectCategoryActivity : Activity
                 if (!categories.Contains(newCatName))
                 {
                     bool success = AddCategoryToDB(newCatName);
+                    adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+                    listViewCategories.Adapter = adapter;
+                    
                     if (success)
                     {
                         categories.Add(newCatName);
@@ -112,6 +115,8 @@ public class SelectCategoryActivity : Activity
             foreach (var cat in expenseCats)
                 categories.Add(cat.Name);
         }
+        adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+        listViewCategories.Adapter = adapter;
         adapter?.NotifyDataSetChanged();
     }
 
@@ -145,6 +150,8 @@ public class SelectCategoryActivity : Activity
             if(success)
             {
                 categories.RemoveAt(position);
+                adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+                listViewCategories.Adapter = adapter;
                 adapter.NotifyDataSetChanged();
                 Toast.MakeText(this, "Категория удалена", ToastLength.Short).Show();
             }
@@ -176,11 +183,16 @@ public class SelectCategoryActivity : Activity
                if(!categories.Contains(newName))
                {
                    bool success= RenameCategoryInDB(oldName,newName);
+                   adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+                   listViewCategories.Adapter = adapter;
 
                    if(success)
                    {
                        categories[position]= newName;
+                       adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+                       listViewCategories.Adapter = adapter;
                        adapter.NotifyDataSetChanged();
+                       
                        Toast.MakeText(this,"Категория обновлена",ToastLength.Short).Show();
                    }
                    else
@@ -240,6 +252,8 @@ public class SelectCategoryActivity : Activity
 
                if(categoryToDelete != null)
                    incomeCatManager.RemoveCategory(categoryToDelete.Id); 
+               adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+               listViewCategories.Adapter = adapter;
            }
            else if(operationType=="Расход")
            {
@@ -250,6 +264,8 @@ public class SelectCategoryActivity : Activity
 
                if(categoryToDelete != null)
                    expenseCatManager.RemoveCategory(categoryToDelete.Id); 
+               adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemSingleChoice, categories);
+               listViewCategories.Adapter = adapter;
            }
            return true;
        }
