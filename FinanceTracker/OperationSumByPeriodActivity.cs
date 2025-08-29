@@ -14,6 +14,8 @@ namespace FinanceTracker
         private string operationType;
         private AppDBManager database;
         private ArrayAdapter<CategorySum> adapter;
+        private DateTime startRange;
+        private DateTime endRange;
 
         enum PeriodType
         {
@@ -77,9 +79,15 @@ namespace FinanceTracker
 
             listViewCategoriesSum.ItemClick += (s, e) =>
             {
-                var categoryName = categorySums[e.Position].CategoryName;
+                var categorySum = categorySums[e.Position];
                 var intent = new Intent(this, typeof(OperationByCategoryActivity));
-                intent.PutExtra("CategoryName", categoryName);
+                intent.PutExtra("CategoryId", categorySum.CategoryId);
+                intent.PutExtra("CategoryName", categorySum.CategoryName);
+                intent.PutExtra("OperationType", operationType);
+                string startRangeStr = startRange.ToString("o");
+                string endRangeStr = endRange.ToString("o");
+                intent.PutExtra("StartRange", startRangeStr);
+                intent.PutExtra("EndRange", endRangeStr);
                 StartActivity(intent);
             };
         }
@@ -241,8 +249,8 @@ namespace FinanceTracker
         {
             categorySums.Clear();
 
-            DateTime startRange = DateTime.MinValue;
-            DateTime endRange = DateTime.MaxValue;
+            startRange = DateTime.MinValue;
+            endRange = DateTime.MaxValue;
 
             if (currentPeriodType != PeriodType.AllTime)
             {
