@@ -58,6 +58,13 @@ public abstract class Operation
     public abstract List<Operation> GetOperations();
     
     /// <summary>
+    /// Получение операции по ИД.
+    /// </summary>
+    /// <param name="id">ИД.</param>
+    /// <returns></returns>
+    public abstract Operation GetOperation(int id);
+    
+    /// <summary>
     /// Получение списка операций за период.
     /// </summary>
     /// <returns></returns>

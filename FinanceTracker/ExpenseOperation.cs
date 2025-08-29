@@ -50,6 +50,11 @@ public class ExpenseOperation : Operation
        return new List<Operation>(database.GetExpenseOperations());
     }
 
+    public override ExpenseOperation GetOperation(int id)
+    {
+        return database.GetExpenseOperation(id);
+    }
+
     public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
         ExpenseCategory expenseCategory = new ExpenseCategory();

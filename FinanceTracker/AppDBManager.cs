@@ -29,7 +29,7 @@ public class AppDBManager
     {
         return connection.Table<ExpenseCategory>().ToList();
     }
-
+    
     /// <summary>
     /// Изменение категории расхода.
     /// </summary>
@@ -100,6 +100,16 @@ public class AppDBManager
     public List<ExpenseOperation> GetExpenseOperations()
     {
        return connection.Table<ExpenseOperation>().ToList();
+    }
+    
+    /// <summary>
+    /// Получение операции расходапо ИД.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public ExpenseOperation GetExpenseOperation(int id)
+    {
+        return connection.Find<ExpenseOperation>(id);
     }
 
     /// <summary>
@@ -172,6 +182,16 @@ public class AppDBManager
     public void AddIncomeOperation(IncomeOperation incomeOperation)
     {
         connection.Insert(incomeOperation);
+    }
+
+    /// <summary>
+    /// Получение операции дохода по ИД.
+    /// </summary>
+    /// <param name="id">ИД операции.</param>
+    /// <returns></returns>
+    public IncomeOperation GetIncomeOperation(int id)
+    {
+        return connection.Find<IncomeOperation>(id);
     }
     
     /// <summary>

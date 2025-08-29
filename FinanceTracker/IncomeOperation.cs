@@ -49,6 +49,11 @@ public class IncomeOperation : Operation
     {
         return new List<Operation>(database.GetIncomeOperations());
     }
+    
+    public override IncomeOperation GetOperation(int id)
+    {
+        return database.GetIncomeOperation(id);
+    }
 
     public override List<CategorySum> GetOperationsSumByCategoryAndPeriod(DateTime startDate, DateTime endDate)
     {
